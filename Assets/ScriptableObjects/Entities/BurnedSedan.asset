@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e924ae18170cd004f91e2785ca9b34cf, type: 3}
   m_Name: BurnedSedan
-  m_EditorClassIdentifier: Assembly-CSharp::BurnedSedan
+  m_EditorClassIdentifier: Assembly-CSharp::InstantDamage
   Description: 
   Icon: {fileID: 0}
   Prefab: {fileID: 1992918158774306533, guid: 42052087c31aba749b0676c356767f8a, type: 3}
@@ -20,4 +20,4 @@ MonoBehaviour:
   InventorySlot: 0
   Biome: 0
   Type: 0
-  _damage: 5
+  _damage: 20

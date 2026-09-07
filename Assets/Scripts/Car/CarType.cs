@@ -20,6 +20,7 @@ public class CarType : MonoBehaviour
     [Header("Stats")]
     public float MaxHealth;
     public float MaxFuel;
+    public float FuelPerTick;
 
     [Header("Inventory")]
     public List<InventorySlotCount> Slots = new List<InventorySlotCount>();

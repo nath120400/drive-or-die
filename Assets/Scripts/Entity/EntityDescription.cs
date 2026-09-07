@@ -18,13 +18,14 @@ public abstract class EntityDescription : ScriptableObject
     // Self-managed pool: pop to spawn, push to release, instantiate on demand
     private readonly Stack<GameObject> _pool = new Stack<GameObject>();
 
-    public Entity Spawn(Vector3 position, Transform parent)
+    public Entity Spawn(Vector3 position, Chunk chunk)
     {
-        GameObject instance = _pool.Count > 0 ? _pool.Pop() : Instantiate(Prefab, parent);
+        GameObject instance = _pool.Count > 0 ? _pool.Pop() : Instantiate(Prefab, chunk.transform);
 
         Entity entity = instance.GetComponent<Entity>();
         entity.Description = this;
-        instance.transform.SetParent(parent);
+        entity.Chunk = chunk;
+        instance.transform.SetParent(chunk.transform);
         instance.transform.localPosition = position;
         instance.SetActive(true);
         return entity;
@@ -32,6 +33,8 @@ public abstract class EntityDescription : ScriptableObject
 
     public void Release(Entity entity)
     {
+        // Detach from its chunk so it can never be released twice
+        entity.Chunk.Entities.Remove(entity);
         entity.gameObject.SetActive(false);
         _pool.Push(entity.gameObject);
     }

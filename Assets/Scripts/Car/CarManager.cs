@@ -30,6 +30,10 @@ public class CarManager : MonoBehaviour
     public float Score;
     public List<EntityDescription> Inventory = new List<EntityDescription>();
 
+    public float FuelPerTick => _fuelPerTick;
+    public float MaxHealth => _carType.MaxHealth;
+    public float MaxFuel => _carType.MaxFuel;
+
     // Reused delta: no allocation per collision
     private DeltaStat _delta = new DeltaStat();
 
@@ -42,6 +46,7 @@ public class CarManager : MonoBehaviour
     private float _wheelRotationX;
     private float _smoothedInput;
     private float _dynamicMaxAngle;
+    private float _fuelPerTick;
 
     private void Start()
     {
@@ -56,6 +61,7 @@ public class CarManager : MonoBehaviour
         _maxDiagonalAngle = _carType.MaxDiagonalAngle;
         Health = _carType.MaxHealth;
         Fuel = _carType.MaxFuel;
+        _fuelPerTick = _carType.FuelPerTick;
     }
 
     private void FixedUpdate()
@@ -68,7 +74,7 @@ public class CarManager : MonoBehaviour
 
         // Dynamic steering
         float speedFactor = Mathf.Clamp01(Mathf.Abs(_forwardSpeed) / 50f);
-        float dynamicMaxAngle = Mathf.Lerp(_maxDiagonalAngle, _maxDiagonalAngle * 0.2f, speedFactor);
+        float dynamicMaxAngle = Mathf.Lerp(_maxDiagonalAngle, _maxDiagonalAngle * 0.5f, speedFactor);
         _dynamicMaxAngle = dynamicMaxAngle;
         float targetCarAngle = _smoothedInput * dynamicMaxAngle;
 
@@ -147,7 +153,6 @@ public class CarManager : MonoBehaviour
             }
 
             Apply(_delta);
-            Debug.Log($"[CarManager] Hit {entity.name} ({entity.Description.name}): dHealth={_delta.Health:+0;-0} dFuel={_delta.Fuel:+0;-0} -> Health={Health:F1} Fuel={Fuel:F1}");
 
             entity.Description.Release(entity);
         }

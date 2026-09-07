@@ -3,15 +3,13 @@ using UnityEngine;
 
 public class ChunkManager : MonoBehaviour
 {
-    public int ChunkCols;
-    public int ChunkRows;
     public int AheadChunks;
-    public int BehindChunks;
     public int Target;
     public int Tries;
-    public float CellSizeX;
-    public float CellSizeY;
+    public int XCells;
+    public int YCells;
     public float Border;
+    public List<GameObject> ChunkPrefabs = new List<GameObject>();
     public EntityDatabase Database;
     public List<Chunk> Chunks = new List<Chunk>();
 
@@ -23,17 +21,43 @@ public class ChunkManager : MonoBehaviour
     // Flat grid, index = row * ChunkCols + col: allocated once, cleared every chunk, zero GC
     private readonly List<EntityDescription> _grid = new List<EntityDescription>();
 
-    public void NewChunk(CarManager car)
-    {
-        // Take a free chunk from the pool (or create one)
-        Chunk chunk = TakeFreeChunk();
+    // Blocks recycling in Update until the ring is filled
+    private bool _initialized;
 
-        // Set its Id (last chunk + 1) and place it after the previous chunk in the scene
+    // One-time fill: the ring is built with AheadChunks brand new chunks,
+    // recycling only starts after every chunk exists
+    private void OnEnable()
+    {
+        for (int i = 0; i < AheadChunks; i++)
+        {
+            NewChunk(_car, CreateChunk());
+        }
+
+        _initialized = true;
+    }
+
+    // The chunk comes from outside: a fresh one during the fill, the recycled
+    // head otherwise; this only places and seeds it
+    public void NewChunk(CarManager car, Chunk chunk)
+    {
+        // Set its Id (last chunk + 1) and place it right after the previous chunk
         chunk.Id = Chunks.Count > 0 ? Chunks[Chunks.Count - 1].Id + 1 : 0;
-        chunk.transform.position = Chunks.Count > 0
-            ? Chunks[Chunks.Count - 1].transform.position + Vector3.forward * ChunkRows * CellSizeY
+        chunk.transform.localPosition = Chunks.Count > 0
+            ? Chunks[Chunks.Count - 1].transform.localPosition + Vector3.forward * Chunks[Chunks.Count - 1].Length
             : Vector3.zero;
         Chunks.Add(chunk);
+
+        // The prefab zone marker drives the grid: its horizontal rect divides into
+        // XCells x YCells cells exactly, the zone depth is the chunk length
+        ChunkZone zone = chunk.Zone;
+        float zoneWidth = zone.Max.x - zone.Min.x;
+        float zoneDepth = zone.Max.y - zone.Min.y;
+        int chunkCols = XCells;
+        int chunkRows = YCells;
+        chunk.Length = zoneDepth;
+
+        float cellSizeX = zoneWidth / chunkCols;
+        float cellSizeY = zoneDepth / chunkRows;
 
         // Rebuild its blueprints:
         // 1. Clear the chunk entities and the blueprint list (no reallocation)
@@ -72,10 +96,12 @@ public class ChunkManager : MonoBehaviour
         }
 
         // 6. Dart throwing: per spawned entity, a fresh budget of random tries,
-        //    the grid holds one entity per cell
-        if (_grid.Count != ChunkRows * ChunkCols)
+        //    the grid holds one entity per cell; the size follows the zone,
+        //    so it is rebuilt when the recycled chunk is a different variant
+        if (_grid.Count != chunkCols * chunkRows)
         {
-            for (int i = 0; i < ChunkRows * ChunkCols; i++)
+            _grid.Clear();
+            for (int i = 0; i < chunkCols * chunkRows; i++)
             {
                 _grid.Add(null);
             }
@@ -90,9 +116,9 @@ public class ChunkManager : MonoBehaviour
         {
             for (int tryIndex = 0; tryIndex < Tries; tryIndex++)
             {
-                int row = Random.Range(0, ChunkRows);
-                int col = Random.Range(0, ChunkCols);
-                int index = row * ChunkCols + col;
+                int row = Random.Range(0, chunkRows);
+                int col = Random.Range(0, chunkCols);
+                int index = row * chunkCols + col;
                 if (_grid[index] != null)
                 {
                     continue;
@@ -107,62 +133,73 @@ public class ChunkManager : MonoBehaviour
         //    the edge column in the shift direction is dropped so nothing overhangs,
         //    entities jitter inside their cell minus the border, two neighbors
         //    never come closer than 2 x Border
-        float halfWidth = ChunkCols * CellSizeX * 0.5f;
-        float jitterX = CellSizeX * 0.5f - Border;
-        float jitterY = CellSizeY * 0.5f - Border;
-        for (int row = 0; row < ChunkRows; row++)
+        float jitterX = cellSizeX * 0.5f - Border;
+        float jitterY = cellSizeY * 0.5f - Border;
+        for (int row = 0; row < chunkRows; row++)
         {
-            float rowOffset = CellSizeX * Random.value - CellSizeX * 0.5f;
+            float rowOffset = cellSizeX * Random.value - cellSizeX * 0.5f;
             if (rowOffset > 0f)
             {
-                _grid[row * ChunkCols + ChunkCols - 1] = null;
+                _grid[row * chunkCols + chunkCols - 1] = null;
             }
             else
             {
-                _grid[row * ChunkCols] = null;
+                _grid[row * chunkCols] = null;
             }
 
-            for (int col = 0; col < ChunkCols; col++)
+            for (int col = 0; col < chunkCols; col++)
             {
-                EntityDescription description = _grid[row * ChunkCols + col];
+                EntityDescription description = _grid[row * chunkCols + col];
                 if (description == null)
                 {
                     continue;
                 }
 
-                float x = (col + 0.5f) * CellSizeX - halfWidth + rowOffset + Random.Range(-jitterX, jitterX);
-                float y = (row + 0.5f) * CellSizeY + Random.Range(-jitterY, jitterY);
+                // Cells tile the zone in its own local frame, so a tilted or rotated
+                // marker carries the entities with it; Altitude is the zone base
+                Vector3 zoneLocal = new Vector3(
+                    zone.Min.x + (col + 0.5f) * cellSizeX + rowOffset + Random.Range(-jitterX, jitterX),
+                    zone.Altitude,
+                    zone.Min.y + (row + 0.5f) * cellSizeY + Random.Range(-jitterY, jitterY));
+                Vector3 position = chunk.transform.InverseTransformPoint(zone.transform.TransformPoint(zoneLocal));
 
-                Vector3 position = new Vector3(x, 0f, y);
-                Entity entity = description.Spawn(position, chunk.transform);
+                Entity entity = description.Spawn(position, chunk);
                 entity.transform.localRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
                 chunk.Entities.Add(entity);
             }
         }
     }
 
-    // The world slides toward the car at its forward speed, and we keep enough chunks ahead of it
+    // The world slides toward the car at its forward speed; when the head chunk
+    // slid its own length behind the local zero, NewChunk recycles it to the tail
     private void Update()
     {
         Vector3 motion = Vector3.back * (_car.ForwardSpeed * Time.deltaTime);
         for (int i = 0; i < Chunks.Count; i++)
         {
-            Chunks[i].transform.position += motion;
+            Chunks[i].transform.localPosition += motion;
         }
 
-        if (Chunks.Count == 0)
+        // Until the ring is filled, never recycle
+        if (!_initialized)
         {
-            NewChunk(_car);
             return;
         }
 
-        float chunkLength = ChunkRows * CellSizeY;
-        Chunk last = Chunks[Chunks.Count - 1];
-        float lastEnd = last.transform.position.z + chunkLength;
-        if (_car.transform.position.z + AheadChunks * chunkLength >= lastEnd)
+        Chunk first = Chunks[0];
+        if (first.transform.localPosition.z < 0f)
         {
-            Debug.Log($"[ChunkManager] NewChunk {last.Id + 1}: last.z={last.transform.position.z:F1} lastEnd={lastEnd:F1} car.z={_car.transform.position.z:F1}");
-            NewChunk(_car);
+            Chunks.RemoveAt(0);
+            Debug.Log($"[ChunkManager] Recycled chunk {first.Id}: z={first.transform.localPosition.z:F1}");
+
+            // Free its entities back to their pools:
+            // Release detaches each one from the list, so walk it backwards
+            for (int i = first.Entities.Count - 1; i >= 0; i--)
+            {
+                first.Entities[i].Description.Release(first.Entities[i]);
+            }
+
+            NewChunk(_car, first);
         }
     }
 
@@ -186,26 +223,13 @@ public class ChunkManager : MonoBehaviour
     {
     }
 
-    // The first chunk, far enough behind the car, is recycled to the front of the ring
-    private Chunk TakeFreeChunk()
+    // A random prefab variant becomes a chunk
+    private Chunk CreateChunk()
     {
-        float chunkLength = ChunkRows * CellSizeY;
-        if (Chunks.Count > 0)
+        if (ChunkPrefabs.Count > 0)
         {
-            Chunk oldest = Chunks[0];
-            if (oldest.transform.position.z + chunkLength < _car.transform.position.z - BehindChunks * chunkLength)
-            {
-                Chunks.RemoveAt(0);
-                Debug.Log($"[ChunkManager] Recycled chunk {oldest.Id}: z={oldest.transform.position.z:F1} car.z={_car.transform.position.z:F1}");
-
-                // Free its entities back to their pools before reuse
-                for (int i = 0; i < oldest.Entities.Count; i++)
-                {
-                    oldest.Entities[i].Description.Release(oldest.Entities[i]);
-                }
-
-                return oldest;
-            }
+            GameObject prefab = ChunkPrefabs[Random.Range(0, ChunkPrefabs.Count)];
+            return Instantiate(prefab, transform).GetComponent<Chunk>();
         }
 
         Chunk created = new GameObject("Chunk").AddComponent<Chunk>();

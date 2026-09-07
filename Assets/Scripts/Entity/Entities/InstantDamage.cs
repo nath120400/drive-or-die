@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Entities/Burned Sedan")]
-public class BurnedSedan : EntityDescription
+[CreateAssetMenu(menuName = "Entities/Instant Damage")]
+public class InstantDamage : EntityDescription
 {
     [SerializeField] private int _damage;
 

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Database
   m_EditorClassIdentifier: Assembly-CSharp::EntityDatabase
   Descriptions:
-  - {fileID: 11400000, guid: 09afaa886bef7e440b29bf4aadb37e34, type: 2}
+  - {fileID: 11400000, guid: baeeae96fe5c4e64aaf23723b5e001c2, type: 2}
