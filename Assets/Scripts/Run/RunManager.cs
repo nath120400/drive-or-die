@@ -8,6 +8,9 @@ public class RunManager : MonoBehaviour
     [SerializeField] private float _tickInterval = 1f / 3f;
     [SerializeField] private float _scorePerTick = 10f;
 
+    // Difficulty cursor from 0 to 1
+    [SerializeField, Range(0f, 1f)] private float _difficulty;
+
     // Reused delta per tick: no allocation
     private DeltaStat _delta = new DeltaStat();
     private float _tickTimer;

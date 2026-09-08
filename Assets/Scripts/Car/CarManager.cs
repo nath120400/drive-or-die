@@ -154,6 +154,12 @@ public class CarManager : MonoBehaviour
 
             Apply(_delta);
 
+            // The effects outlive the entity: they slide on with its chunk
+            for (int i = 0; i < entity.Description.Effects.Count; i++)
+            {
+                entity.Description.Effects[i].Spawn(entity.transform.position, entity.Chunk.transform);
+            }
+
             entity.Description.Release(entity);
         }
     }

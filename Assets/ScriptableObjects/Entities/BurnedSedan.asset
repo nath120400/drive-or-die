@@ -17,6 +17,9 @@ MonoBehaviour:
   Prefab: {fileID: 1992918158774306533, guid: 42052087c31aba749b0676c356767f8a, type: 3}
   Weight: 1
   Prewarm: 100
+  Effects:
+  - {fileID: 11400000, guid: 4a3f7cfb2215a5846934200a84ef99d3, type: 2}
+  - {fileID: 11400000, guid: 217b6435745758a439b178e346c1766f, type: 2}
   InventorySlot: 0
   Biome: 0
   Type: 0

@@ -11,6 +11,8 @@ public abstract class EntityDescription : ScriptableObject
 
     public int Prewarm;
 
+    public List<EffectDescription> Effects = new List<EffectDescription>();
+
     public InventorySlot InventorySlot;
     public Biome Biome;
     public EntityType Type;
