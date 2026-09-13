@@ -16,6 +16,9 @@ public class ChunkManager : MonoBehaviour
     // The scene car: it drives the run state
     [SerializeField] private CarManager _car;
 
+    // The run manager: its difficulty curves the entity weights
+    [SerializeField] private RunManager _run;
+
     private readonly List<EntityBlueprint> _blueprints = new List<EntityBlueprint>();
 
     // Flat grid, index = row * ChunkCols + col: allocated once, cleared every chunk, zero GC
@@ -40,8 +43,7 @@ public class ChunkManager : MonoBehaviour
     // head otherwise; this only places and seeds it
     public void NewChunk(CarManager car, Chunk chunk)
     {
-        // Set its Id (last chunk + 1) and place it right after the previous chunk
-        chunk.Id = Chunks.Count > 0 ? Chunks[Chunks.Count - 1].Id + 1 : 0;
+        // Place it right after the previous chunk: their Lengths may differ
         chunk.transform.localPosition = Chunks.Count > 0
             ? Chunks[Chunks.Count - 1].transform.localPosition + Vector3.forward * Chunks[Chunks.Count - 1].Length
             : Vector3.zero;
@@ -54,7 +56,6 @@ public class ChunkManager : MonoBehaviour
         float zoneDepth = zone.Max.y - zone.Min.y;
         int chunkCols = XCells;
         int chunkRows = YCells;
-        chunk.Length = zoneDepth;
 
         float cellSizeX = zoneWidth / chunkCols;
         float cellSizeY = zoneDepth / chunkRows;
@@ -68,7 +69,12 @@ public class ChunkManager : MonoBehaviour
         //    then the car inventory items adjust the weight
         foreach (EntityDescription description in Database.Descriptions)
         {
-            EntityBlueprint blueprint = new EntityBlueprint { Description = description, Weight = description.Weight };
+            // The weight rides its own curve: min at the start, max at full difficulty
+            EntityBlueprint blueprint = new EntityBlueprint
+            {
+                Description = description,
+                Weight = Mathf.Lerp(description.MinWeight, description.MaxWeight, _run.Difficulty)
+            };
 
             FilterBlueprint(ref blueprint);
 
@@ -190,7 +196,6 @@ public class ChunkManager : MonoBehaviour
         if (first.transform.localPosition.z < 0f)
         {
             Chunks.RemoveAt(0);
-            Debug.Log($"[ChunkManager] Recycled chunk {first.Id}: z={first.transform.localPosition.z:F1}");
 
             // Free its entities back to their pools:
             // Release detaches each one from the list, so walk it backwards
@@ -203,9 +208,14 @@ public class ChunkManager : MonoBehaviour
         }
     }
 
-    // Odds weighted by the blueprint weights
+    // Odds weighted by the blueprint weights: an empty candidate set draws nothing
     private EntityDescription DrawBlueprint(float totalWeight)
     {
+        if (_blueprints.Count == 0 || totalWeight <= 0f)
+        {
+            return null;
+        }
+
         float roll = Random.value * totalWeight;
         for (int i = 0; i < _blueprints.Count; i++)
         {

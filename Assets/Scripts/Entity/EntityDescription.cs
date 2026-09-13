@@ -3,21 +3,21 @@ using UnityEngine;
 
 public abstract class EntityDescription : ScriptableObject
 {
+    // Front
     public string Description;
     public Sprite Icon;
     public GameObject Prefab;
-
-    public float Weight;
-
-    public int Prewarm;
-
     public List<EffectDescription> Effects = new List<EffectDescription>();
 
-    public InventorySlot InventorySlot;
-    public Biome Biome;
-    public EntityType Type;
+    // Stats
+    public float MinWeight;
+    public float MaxWeight;
+    public float Radius;
+    public InventorySlot           InventorySlot;
+    public Biome                   Biome;
+    public EntityType              Type;
 
-    // Self-managed pool: pop to spawn, push to release, instantiate on demand
+    // Pool
     private readonly Stack<GameObject> _pool = new Stack<GameObject>();
 
     public Entity Spawn(Vector3 position, Chunk chunk)
@@ -41,19 +41,11 @@ public abstract class EntityDescription : ScriptableObject
         _pool.Push(entity.gameObject);
     }
 
-    public virtual void OnEntityBlueprint(ref EntityBlueprint blueprint)
-    {
-    }
+    public virtual void OnEntityBlueprint(ref EntityBlueprint blueprint) {}
 
-    public virtual void OnCollide(ref DeltaStat delta)
-    {
-    }
+    public virtual void OnCollide(ref DeltaStat delta) {}
 
-    public virtual void InInventory(ref DeltaStat delta)
-    {
-    }
+    public virtual void OnInventory(ref DeltaStat delta) {}
 
-    public virtual void OnScore()
-    {
-    }
+    public virtual void OnScore(ref DeltaStat delta) {}
 }

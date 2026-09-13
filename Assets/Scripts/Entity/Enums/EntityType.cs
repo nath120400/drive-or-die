@@ -1,5 +1,5 @@
 public enum EntityType
 {
-    Obstacle,
-    Item
+    Collidable,
+    Pickable
 }

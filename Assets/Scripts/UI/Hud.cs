@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Hud : MonoBehaviour
@@ -7,11 +8,14 @@ public class Hud : MonoBehaviour
     [SerializeField] private RectTransform _healthForeground;
     [SerializeField] private RectTransform _fuelBackground;
     [SerializeField] private RectTransform _fuelForeground;
+    [SerializeField] private TMP_Text _score;
 
     private void Update()
     {
-        SetBar(_healthBackground, _healthForeground, _car.Health / _car.MaxHealth);
-        SetBar(_fuelBackground, _fuelForeground, _car.Fuel / _car.MaxFuel);
+        SetBar(_healthBackground, _healthForeground, _car.State.Health / _car.State.MaxHealth);
+        SetBar(_fuelBackground, _fuelForeground, _car.State.Fuel / _car.State.MaxFuel);
+
+        _score.text = _car.State.Score.ToString("F0");
     }
 
     // The foreground keeps its anchor on the left edge: only its width follows the ratio

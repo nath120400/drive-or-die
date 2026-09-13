@@ -8,10 +8,13 @@ public class CarType : MonoBehaviour
     public Transform FrontRightWheel;
     public Transform RearLeftWheel;
     public Transform RearRightWheel;
+
     public Transform CarBody;
 
     [Header("Physical")]
-    public float ForwardSpeed;
+    public float BaseSpeed;
+    public float TargetSpeed;
+    
     public float Wheelbase;
     public float SteeringSpeed;
     public float MaxWheelAngle;

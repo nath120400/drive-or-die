@@ -23,22 +23,25 @@ public class CarManager : MonoBehaviour
     [SerializeField] private float _shakeRotAmplitude = 1.5f;
     [SerializeField] private float _shakePosAmplitude = 0.05f;
 
-    // Run state
-    public float Health;
-    public float Fuel;
-    public float Distance;
-    public float Score;
+    // The state owns the run stats: the car only feeds it and reads it
+    private RunState _state;
+
+    public RunState State => _state;
     public List<EntityDescription> Inventory = new List<EntityDescription>();
 
     public float FuelPerTick => _fuelPerTick;
-    public float MaxHealth => _carType.MaxHealth;
-    public float MaxFuel => _carType.MaxFuel;
 
     // Reused delta: no allocation per collision
     private DeltaStat _delta = new DeltaStat();
 
     public float CurrentMaxAngle => _dynamicMaxAngle;
     public float ForwardSpeed => _forwardSpeed;
+
+    public void SetProgress(float progress)
+    {
+        // The speed rides its own lerp: base seed toward the car target
+        _forwardSpeed = Mathf.Lerp(_baseSpeed, _targetSpeed, Mathf.Clamp01(progress));
+    }
 
     private Rigidbody _rb;
     private float _currentCarAngle;
@@ -47,6 +50,8 @@ public class CarManager : MonoBehaviour
     private float _smoothedInput;
     private float _dynamicMaxAngle;
     private float _fuelPerTick;
+    private float _baseSpeed;
+    private float _targetSpeed;
 
     private void Start()
     {
@@ -54,13 +59,14 @@ public class CarManager : MonoBehaviour
 
         // The car type on the same prefab seeds the run state
         _carType = GetComponent<CarType>();
-        _forwardSpeed = _carType.ForwardSpeed;
+        _baseSpeed = _carType.BaseSpeed;
+        _targetSpeed = _carType.TargetSpeed;
+        _forwardSpeed = _baseSpeed;
         _wheelbase = _carType.Wheelbase;
         _steeringSpeed = _carType.SteeringSpeed;
         _maxWheelAngle = _carType.MaxWheelAngle;
         _maxDiagonalAngle = _carType.MaxDiagonalAngle;
-        Health = _carType.MaxHealth;
-        Fuel = _carType.MaxFuel;
+        _state = new RunState(_carType.MaxHealth, _carType.MaxFuel);
         _fuelPerTick = _carType.FuelPerTick;
     }
 
@@ -97,7 +103,6 @@ public class CarManager : MonoBehaviour
         // Lateral movement only: the world (chunks) carries the forward motion
         float lateralVelocity = _forwardSpeed * Mathf.Tan(_currentCarAngle * Mathf.Deg2Rad);
         _rb.linearVelocity = new Vector3(lateralVelocity, _rb.linearVelocity.y, _rb.linearVelocity.z);
-        Distance += _forwardSpeed * Time.fixedDeltaTime;
     }
 
     private void Update()
@@ -149,10 +154,10 @@ public class CarManager : MonoBehaviour
             // The inventory items adjust the delta before it lands
             for (int i = 0; i < Inventory.Count; i++)
             {
-                Inventory[i].InInventory(ref _delta);
+                Inventory[i].OnInventory(ref _delta);
             }
 
-            Apply(_delta);
+            _state.Apply(ref _delta);
 
             // The effects outlive the entity: they slide on with its chunk
             for (int i = 0; i < entity.Description.Effects.Count; i++)
@@ -162,13 +167,5 @@ public class CarManager : MonoBehaviour
 
             entity.Description.Release(entity);
         }
-    }
-
-    public void Apply(DeltaStat delta)
-    {
-        Health += delta.Health;
-        Fuel += delta.Fuel;
-        Score += delta.Score;
-        Distance += delta.Distance;
     }
 }

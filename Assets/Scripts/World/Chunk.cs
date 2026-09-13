@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Chunk : MonoBehaviour
 {
-    public int Id;
-    public float Length;
+    // The length is the depth of its zone: everything else derives from it
+    public float Length => Zone.Max.y - Zone.Min.y;
     public List<Entity> Entities = new List<Entity>();
 
     [SerializeField] private ChunkZone _zone;
