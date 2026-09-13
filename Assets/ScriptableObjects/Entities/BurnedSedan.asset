@@ -24,4 +24,4 @@ MonoBehaviour:
   InventorySlot: 0
   Biome: 0
   Type: 0
-  _damage: 20
+  _damage: 100

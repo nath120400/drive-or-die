@@ -9,7 +9,7 @@ public class MainMenu : Menu
 
     public void ShowSettings() => _menus.Show(_settings);
 
-    public void Play() => SceneManager.LoadScene("GameScene");
+    public void Play() => SceneManager.LoadScene(Scenes.Game);
 
     public void Quit() => Application.Quit();
 }
