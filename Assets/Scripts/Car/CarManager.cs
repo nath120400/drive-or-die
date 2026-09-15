@@ -16,6 +16,13 @@ public class CarManager : MonoBehaviour
     [SerializeField] private float _maxWheelAngle = 35f;
     [SerializeField] private float _maxDiagonalAngle = 25f;
 
+    // How fast the yaw error decays once free of any wall contact
+    [SerializeField] private float _realignSpeed = 8f;
+
+    // The fraction of that realign that still applies while grinding a wall:
+    // the car keeps its grip but slowly squares itself back up
+    [SerializeField, Range(0f, 1f)] private float _contactRealignRatio = 0.2f;
+
     [Header("Visual")]
     [SerializeField] private float _wheelRadius = 0.3f;
     [SerializeField] private float _rollMultiplier = 0.02f;
@@ -44,6 +51,7 @@ public class CarManager : MonoBehaviour
     }
 
     private Rigidbody _rb;
+    private float _baseYaw;
     private float _currentCarAngle;
     private float _angularVelocityVelocity;
     private float _wheelRotationX;
@@ -53,9 +61,13 @@ public class CarManager : MonoBehaviour
     private float _baseSpeed;
     private float _targetSpeed;
 
+    // True when a wall-like contact pressed the body during the last physics step
+    private bool _inContact;
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _baseYaw = _rb.rotation.eulerAngles.y;
 
         // The car type on the same prefab seeds the run state
         _carType = GetComponent<CarType>();
@@ -97,8 +109,14 @@ public class CarManager : MonoBehaviour
             Time.fixedDeltaTime
         );
 
-        // Apply steering
-        _rb.angularVelocity = new Vector3(0f, _angularVelocityVelocity * Mathf.Deg2Rad, 0f);
+        // Apply steering: a wall contact still grips the body (the grind
+        // feel) at a fraction of the realign, and once free the yaw eases
+        // fully back to the steering cap
+        float yawError = Mathf.DeltaAngle(_rb.rotation.eulerAngles.y, _baseYaw + _currentCarAngle);
+        float realignRatio = _inContact ? _contactRealignRatio : 1f;
+        float realignRate = yawError * _realignSpeed * realignRatio;
+        _rb.angularVelocity = new Vector3(0f, (_angularVelocityVelocity + realignRate) * Mathf.Deg2Rad, 0f);
+        _inContact = false;
 
         // Lateral movement only: the world (chunks) carries the forward motion
         float lateralVelocity = _forwardSpeed * Mathf.Tan(_currentCarAngle * Mathf.Deg2Rad);
@@ -139,6 +157,24 @@ public class CarManager : MonoBehaviour
 
             _carType.CarBody.localRotation = Quaternion.Euler(0f, 0f, bodyRollZ + noiseRotZ);
             _carType.CarBody.localPosition = new Vector3(0f, noisePosY, 0f);
+        }
+    }
+
+    // Only wall-like contacts count: near-horizontal normals. The ground
+    // contacts constantly and would otherwise cancel the realign forever
+    private void OnCollisionEnter(Collision collision) => CheckWallContact(collision);
+
+    private void OnCollisionStay(Collision collision) => CheckWallContact(collision);
+
+    private void CheckWallContact(Collision collision)
+    {
+        for (int i = 0; i < collision.contactCount; i++)
+        {
+            if (Mathf.Abs(collision.GetContact(i).normal.y) < 0.5f)
+            {
+                _inContact = true;
+                return;
+            }
         }
     }
 

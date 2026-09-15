@@ -4,11 +4,16 @@ using UnityEngine;
 public class ChunkManager : MonoBehaviour
 {
     public int AheadChunks;
-    public int Target;
     public int Tries;
     public int XCells;
     public int YCells;
     public float Border;
+
+    // The entity budget per chunk: it densifies with the difficulty
+    public int MinTarget;
+    public int MaxTarget;
+
+    public int Target => Mathf.RoundToInt(Mathf.Lerp(MinTarget, MaxTarget, _run.Difficulty));
     public List<GameObject> ChunkPrefabs = new List<GameObject>();
     public EntityDatabase Database;
     public List<Chunk> Chunks = new List<Chunk>();
@@ -27,13 +32,18 @@ public class ChunkManager : MonoBehaviour
     // Blocks recycling in Update until the ring is filled
     private bool _initialized;
 
+    // The chunks the car crosses before the first entity can appear:
+    // the run opens on an empty road
+    [SerializeField] private int _emptyChunksAtStart = 2;
+    private int _filledChunks;
+
     // One-time fill: the ring is built with AheadChunks brand new chunks,
     // recycling only starts after every chunk exists
     private void OnEnable()
     {
         for (int i = 0; i < AheadChunks; i++)
         {
-            NewChunk(_car, CreateChunk());
+            NewChunk(_car, CreateChunk(), _filledChunks < _emptyChunksAtStart);
         }
 
         _initialized = true;
@@ -41,7 +51,7 @@ public class ChunkManager : MonoBehaviour
 
     // The chunk comes from outside: a fresh one during the fill, the recycled
     // head otherwise; this only places and seeds it
-    public void NewChunk(CarManager car, Chunk chunk)
+    public void NewChunk(CarManager car, Chunk chunk, bool empty = false)
     {
         // Place it right after the previous chunk: their Lengths may differ
         chunk.transform.localPosition = Chunks.Count > 0
@@ -118,7 +128,7 @@ public class ChunkManager : MonoBehaviour
             _grid[i] = null;
         }
 
-        for (int placed = 0; placed < Target; placed++)
+        for (int placed = 0; placed < Target && !empty; placed++)
         {
             for (int tryIndex = 0; tryIndex < Tries; tryIndex++)
             {
@@ -174,6 +184,7 @@ public class ChunkManager : MonoBehaviour
                 chunk.Entities.Add(entity);
             }
         }
+        _filledChunks++;
     }
 
     // The world slides toward the car at its forward speed; when the head chunk

@@ -5,5 +5,4 @@ using UnityEngine;
 public static class RunResult
 {
     public static float Score;
-    public static float Distance;
 }

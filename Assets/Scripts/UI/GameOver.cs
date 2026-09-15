@@ -2,18 +2,21 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// The game over screen: reads the finished run results, retry or back to menu
+// The game over screen: the final score, flagged when it beats the record,
+// retry or back to menu
 public class GameOver : MonoBehaviour
 {
     [SerializeField] private TMP_Text _score;
-    [SerializeField] private TMP_Text _distance;
 
     private void Start()
     {
-        _score.text = RunResult.Score.ToString("F0");
+        // The record check reads the board before the run lands in it
+        bool newRecord = RunResult.Score > HighScores.BestScore();
+        HighScores.Submit(RunResult.Score);
 
-        // Meters: the run state accumulates raw units at car speed
-        _distance.text = $"{RunResult.Distance:F0} m";
+        _score.text = newRecord
+            ? $"{RunResult.Score:F0} (new)"
+            : RunResult.Score.ToString("F0");
     }
 
     public void Retry() => SceneManager.LoadScene(Scenes.Game);

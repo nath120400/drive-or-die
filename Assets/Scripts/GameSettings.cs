@@ -8,5 +8,8 @@ public class GameSettings : ScriptableObject
     [Range(0f, 1f)] public float MusicVolume = 1f;
     [Range(0f, 1f)] public float SfxVolume = 1f;
 
+    [Header("Display")]
+    public bool Fullscreen = true;
+
     // TODO: add commandes/quality here as the game grows
 }
