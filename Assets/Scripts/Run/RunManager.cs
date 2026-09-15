@@ -1,14 +1,34 @@
+using System.Collections.Generic;
 using UnityEngine;
 
+// The single owner of the run: difficulty, speed, stats and the tick
 public class RunManager : MonoBehaviour
 {
-    [SerializeField] private CarManager _car;
-
     [Header("Tick")]
     [SerializeField] private float _tickInterval = 1f / 3f;
     [SerializeField] private int _maxDifficultyTicks = 1800; // 10 minutes at 3 ticks per second
 
+    [Header("Speed")]
+    [SerializeField] private float _baseSpeed = 20f;
+    [SerializeField] private float _targetSpeed = 60f;
+
+    [Header("Stats")]
+    [SerializeField] private float _maxHealth = 100f;
+    [SerializeField] private float _maxFuel = 100f;
+    [SerializeField] private float _fuelPerTick = 1f;
+
     // Difficulty cursor: ticks since run start over the max difficulty ticks
+    public float Difficulty => Mathf.Clamp01((float)_tickCount / _maxDifficultyTicks);
+
+    // The current speed rides the difficulty
+    public float ForwardSpeed => Mathf.Lerp(_baseSpeed, _targetSpeed, Difficulty);
+
+    // The run state lives here: every stat change lands in Apply
+    private RunState _state;
+    public RunState State => _state;
+
+    // The held entities: they adjust the score, the deltas and the spawns
+    public List<EntityDescription> Inventory = new List<EntityDescription>();
 
     // Reused delta per tick: no allocation
     private DeltaStat _delta = new DeltaStat();
@@ -16,7 +36,10 @@ public class RunManager : MonoBehaviour
     private float _tickTimer;
     private int _tickCount;
 
-    public float Difficulty => Mathf.Clamp01((float)_tickCount / _maxDifficultyTicks);
+    private void Start()
+    {
+        _state = new RunState(_maxHealth, _maxFuel);
+    }
 
     private void Update()
     {
@@ -33,23 +56,19 @@ public class RunManager : MonoBehaviour
     {
         _tickCount++;
 
-        // The car lerps toward its own target as the difficulty rises
-        _car.SetProgress(Difficulty);
-
         // The score is the distance covered during the tick
         _delta.Reset();
 
-        _delta.Fuel = -_car.FuelPerTick * _car.ForwardSpeed;
-        _delta.Score = _car.ForwardSpeed;
-        _delta.Distance = _car.ForwardSpeed;
+        _delta.Fuel = -_fuelPerTick * ForwardSpeed;
+        _delta.Score = ForwardSpeed;
+        _delta.Distance = ForwardSpeed;
 
-        // The inventory items adjust the score before it lands
-        for (int i = 0; i < _car.Inventory.Count; i++)
+        // The held items adjust the score before it lands
+        for (int i = 0; i < Inventory.Count; i++)
         {
-            _car.Inventory[i].OnScore(ref _delta);
+            Inventory[i].OnScore(ref _delta);
         }
 
-        _car.State.Apply(ref _delta);
-
+        _state.Apply(ref _delta);
     }
 }

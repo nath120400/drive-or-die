@@ -19,7 +19,7 @@ public class ChunkManager : MonoBehaviour
     public List<Chunk> Chunks = new List<Chunk>();
 
     // The scene car: it drives the run state
-    [SerializeField] private CarManager _car;
+    [SerializeField] private Car _car;
 
     // The run manager: its difficulty curves the entity weights
     [SerializeField] private RunManager _run;
@@ -43,7 +43,7 @@ public class ChunkManager : MonoBehaviour
     {
         for (int i = 0; i < AheadChunks; i++)
         {
-            NewChunk(_car, CreateChunk(), _filledChunks < _emptyChunksAtStart);
+            NewChunk(CreateChunk(), _filledChunks < _emptyChunksAtStart);
         }
 
         _initialized = true;
@@ -51,7 +51,7 @@ public class ChunkManager : MonoBehaviour
 
     // The chunk comes from outside: a fresh one during the fill, the recycled
     // head otherwise; this only places and seeds it
-    public void NewChunk(CarManager car, Chunk chunk, bool empty = false)
+    public void NewChunk(Chunk chunk, bool empty = false)
     {
         // Place it right after the previous chunk: their Lengths may differ
         chunk.transform.localPosition = Chunks.Count > 0
@@ -76,7 +76,7 @@ public class ChunkManager : MonoBehaviour
         _blueprints.Clear();
         // 2. Gather candidate EntityDescriptions, filtered by Biome
         // 3. For each candidate, create an EntityBlueprint (Description + base Weight),
-        //    then the car inventory items adjust the weight
+        //    then the run inventory items adjust the weight
         foreach (EntityDescription description in Database.Descriptions)
         {
             // The weight rides its own curve: min at the start, max at full difficulty
@@ -88,7 +88,7 @@ public class ChunkManager : MonoBehaviour
 
             FilterBlueprint(ref blueprint);
 
-            foreach (EntityDescription item in car.Inventory)
+            foreach (EntityDescription item in _run.Inventory)
             {
                 item.OnEntityBlueprint(ref blueprint);
             }
@@ -215,7 +215,7 @@ public class ChunkManager : MonoBehaviour
                 first.Entities[i].Description.Release(first.Entities[i]);
             }
 
-            NewChunk(_car, first);
+            NewChunk(first);
         }
     }
 

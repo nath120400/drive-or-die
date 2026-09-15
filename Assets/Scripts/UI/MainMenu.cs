@@ -1,13 +1,10 @@
-using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// The main menu screen: start, settings, quit, and the persistent high scores
-public class MainMenu : Menu
+// The main menu screen: start, quit, and the persistent high scores
+public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private MenuManager _menus;
-    [SerializeField] private Menu _settings;
     [SerializeField] private TMP_Text _highScores;
 
     private void Start()
@@ -15,9 +12,7 @@ public class MainMenu : Menu
         _highScores.text = HighScores.Format();
     }
 
-    public void ShowSettings() => _menus.Show(_settings);
-
-    public void Play() => SceneManager.LoadScene(Scenes.Game);
+    public void Play() => SceneManager.LoadScene(Scenes.GameRound);
 
     public void Quit() => Application.Quit();
 }

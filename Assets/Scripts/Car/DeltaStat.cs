@@ -1,6 +1,6 @@
 public struct DeltaStat
 {
-    public CarManager CarManager;
+    public Car Car;
     public float Health;
     public float Fuel;
     public float Distance;
@@ -8,7 +8,7 @@ public struct DeltaStat
 
     public void Reset()
     {
-        CarManager = null;
+        Car = null;
         Health = 0f;
         Fuel = 0f;
         Distance = 0f;

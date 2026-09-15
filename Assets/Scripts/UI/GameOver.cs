@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // The game over screen: the final score, flagged when it beats the record,
-// retry or back to menu
+// restart or back to menu
 public class GameOver : MonoBehaviour
 {
     [SerializeField] private TMP_Text _score;
@@ -19,7 +19,7 @@ public class GameOver : MonoBehaviour
             : RunResult.Score.ToString("F0");
     }
 
-    public void Retry() => SceneManager.LoadScene(Scenes.Game);
+    public void Restart() => SceneManager.LoadScene(Scenes.GameRound);
 
-    public void Quit() => SceneManager.LoadScene(Scenes.MainMenu);
+    public void QuitToMenu() => SceneManager.LoadScene(Scenes.MainMenu);
 }

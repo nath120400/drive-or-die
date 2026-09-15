@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Hud : MonoBehaviour
 {
-    [SerializeField] private CarManager _car;
+    [SerializeField] private RunManager _run;
     [SerializeField] private RectTransform _healthBackground;
     [SerializeField] private RectTransform _healthForeground;
     [SerializeField] private RectTransform _fuelBackground;
@@ -12,10 +12,10 @@ public class Hud : MonoBehaviour
 
     private void Update()
     {
-        SetBar(_healthBackground, _healthForeground, _car.State.Health / _car.State.MaxHealth);
-        SetBar(_fuelBackground, _fuelForeground, _car.State.Fuel / _car.State.MaxFuel);
+        SetBar(_healthBackground, _healthForeground, _run.State.Health / _run.State.MaxHealth);
+        SetBar(_fuelBackground, _fuelForeground, _run.State.Fuel / _run.State.MaxFuel);
 
-        _score.text = _car.State.Score.ToString("F0");
+        _score.text = _run.State.Score.ToString("F0");
     }
 
     // The foreground keeps its anchor on the left edge: only its width follows the ratio
