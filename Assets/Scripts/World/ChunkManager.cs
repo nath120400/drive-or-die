@@ -15,7 +15,7 @@ public class ChunkManager : MonoBehaviour
 
     public int Target => Mathf.RoundToInt(Mathf.Lerp(MinTarget, MaxTarget, _run.Difficulty));
     public List<GameObject> ChunkPrefabs = new List<GameObject>();
-    public EntityDatabase Database;
+    public EntityList Database;
     public List<Chunk> Chunks = new List<Chunk>();
 
     // The scene car: it drives the run state
@@ -74,7 +74,7 @@ public class ChunkManager : MonoBehaviour
         // 1. Clear the chunk entities and the blueprint list (no reallocation)
         chunk.Entities.Clear();
         _blueprints.Clear();
-        // 2. Gather candidate EntityDescriptions, filtered by Biome
+        // 2. Gather candidate EntityDescriptions
         // 3. For each candidate, create an EntityBlueprint (Description + base Weight),
         //    then the run inventory items adjust the weight
         foreach (EntityDescription description in Database.Descriptions)

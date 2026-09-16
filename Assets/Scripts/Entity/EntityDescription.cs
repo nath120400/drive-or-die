@@ -13,9 +13,6 @@ public abstract class EntityDescription : ScriptableObject
     public float MinWeight;
     public float MaxWeight;
     public float Radius;
-    public InventorySlot           InventorySlot;
-    public Biome                   Biome;
-    public EntityType              Type;
 
     // Pool
     private readonly Stack<GameObject> _pool = new Stack<GameObject>();
