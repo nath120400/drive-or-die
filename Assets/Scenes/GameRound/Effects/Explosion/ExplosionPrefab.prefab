@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8399912620356939320}
   - component: {fileID: 5672606111693989990}
   m_Layer: 0
-  m_Name: Explode
+  m_Name: ExplosionPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1558,12 +1558,12 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: -1126993191, guid: f92ea1e883c0ac744ba99641e1f33a33, type: 3}
-    - sprite: {fileID: 756006657, guid: f92ea1e883c0ac744ba99641e1f33a33, type: 3}
-    - sprite: {fileID: 837951188, guid: f92ea1e883c0ac744ba99641e1f33a33, type: 3}
-    - sprite: {fileID: 1800215744, guid: f92ea1e883c0ac744ba99641e1f33a33, type: 3}
-    - sprite: {fileID: 742653653, guid: f92ea1e883c0ac744ba99641e1f33a33, type: 3}
-    - sprite: {fileID: -212865507, guid: f92ea1e883c0ac744ba99641e1f33a33, type: 3}
+    - sprite: {fileID: -1608951345, guid: f92ea1e883c0ac744ba99641e1f33a33, type: 3}
+    - sprite: {fileID: 1991238642, guid: f92ea1e883c0ac744ba99641e1f33a33, type: 3}
+    - sprite: {fileID: -770153411, guid: f92ea1e883c0ac744ba99641e1f33a33, type: 3}
+    - sprite: {fileID: -928179579, guid: f92ea1e883c0ac744ba99641e1f33a33, type: 3}
+    - sprite: {fileID: 156390909, guid: f92ea1e883c0ac744ba99641e1f33a33, type: 3}
+    - sprite: {fileID: -1101444214, guid: f92ea1e883c0ac744ba99641e1f33a33, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:

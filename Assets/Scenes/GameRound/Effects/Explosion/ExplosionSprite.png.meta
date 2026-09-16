@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hit Effect 01 1_0
+      name: ExplosionSprite_0
       rect:
         serializedVersion: 2
         x: 0
@@ -112,14 +112,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 47bd71e02196e9045880c3916eb9fb60
-      internalID: -1126993191
+      spriteID: e509a03289979f148bfdc7b69a838fc1
+      internalID: -1608951345
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit Effect 01 1_1
+      name: ExplosionSprite_1
       rect:
         serializedVersion: 2
         x: 48
@@ -134,14 +134,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 308236b21d47d3941bd1a40428e00713
-      internalID: 756006657
+      spriteID: 803d70b694258b1e992d6bc66d29651b
+      internalID: 1991238642
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit Effect 01 1_2
+      name: ExplosionSprite_2
       rect:
         serializedVersion: 2
         x: 96
@@ -156,14 +156,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9bb85fac8ac14d2448e9c0f3d5fc27db
-      internalID: 837951188
+      spriteID: 7688c94e7a4a597c6948d6d1f8568a81
+      internalID: -770153411
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit Effect 01 1_3
+      name: ExplosionSprite_3
       rect:
         serializedVersion: 2
         x: 144
@@ -178,14 +178,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a53811bb3e99f2b43b073ac66fe2c227
-      internalID: 1800215744
+      spriteID: d49077818762da27f8757930f2ec8485
+      internalID: -928179579
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit Effect 01 1_4
+      name: ExplosionSprite_4
       rect:
         serializedVersion: 2
         x: 192
@@ -200,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5aee2a4d91285d24493b41be944ba99c
-      internalID: 742653653
+      spriteID: a0995d8fe8ef053e484e0ca55c067e44
+      internalID: 156390909
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit Effect 01 1_5
+      name: ExplosionSprite_5
       rect:
         serializedVersion: 2
         x: 240
@@ -222,8 +222,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 56dece0b91f8b4342973f0c0f5fcfb94
-      internalID: -212865507
+      spriteID: a9cbea01f849e64728eb3d925721d465
+      internalID: -1101444214
       vertices: []
       indices: 
       edges: []
@@ -244,12 +244,12 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":7.0,"y":1.0},"gridSpriteSize":{"x":48.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Hit Effect 01 1_0: -1126993191
-      Hit Effect 01 1_1: 756006657
-      Hit Effect 01 1_2: 837951188
-      Hit Effect 01 1_3: 1800215744
-      Hit Effect 01 1_4: 742653653
-      Hit Effect 01 1_5: -212865507
+      ExplosionSprite_0: -1608951345
+      ExplosionSprite_1: 1991238642
+      ExplosionSprite_2: -770153411
+      ExplosionSprite_3: -928179579
+      ExplosionSprite_4: 156390909
+      ExplosionSprite_5: -1101444214
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

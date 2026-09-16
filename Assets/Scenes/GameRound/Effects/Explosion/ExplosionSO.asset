@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d534700f2a5248aca8932e5cc8cadc2, type: 3}
-  m_Name: GameSettings
-  m_EditorClassIdentifier: Assembly-CSharp::GameSettings
-  MasterVolume: 1
-  MusicVolume: 1
-  SfxVolume: 1
+  m_Script: {fileID: 11500000, guid: e8e0b20ffa2381c4b8f6d83feaf1a841, type: 3}
+  m_Name: ExplosionSO
+  m_EditorClassIdentifier: Assembly-CSharp::EffectDescription
+  _prefab: {fileID: 5917579577270566157, guid: 3b4326e84ec34704798800377239d641, type: 3}
+  _volume: 1

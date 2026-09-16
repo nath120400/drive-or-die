@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4498681146798541558}
   - component: {fileID: 2370821468033858575}
   m_Layer: 0
-  m_Name: BurnedSedanExplode
+  m_Name: BurnedCarHitPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
