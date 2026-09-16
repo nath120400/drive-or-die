@@ -15,7 +15,8 @@ MonoBehaviour:
   Description: 
   Icon: {fileID: 0}
   Prefab: {fileID: 1992918158774306533, guid: e438e8cc5d9b0c948b26e400a6dba272, type: 3}
-  Effects: []
+  Effects:
+  - {fileID: 11400000, guid: d6ce4644795569849bc793ad24418ad7, type: 2}
   MinWeight: 1
   MaxWeight: 2
   Radius: 1

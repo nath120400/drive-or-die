@@ -1,8 +1,8 @@
 # Rapport de Tests
 
 **Jeu vidéo PC :** Drive or Die
-**Développeur :** [Nom / Prénom]
-**Promotion :** [Promo / Année]
+**Développeur :** [KLAPCZYNSKI / Nathanael]
+**Promotion :** [Lagos / 2026]
 **Version :** 1.0
 
 ---
@@ -84,6 +84,7 @@ MainMenu.Start () (at Assets/Scripts/MainMenu/MainMenu.cs:12)
 ```
 
 Par ricochet, le Game Over subirait le même sort : sa lecture du record emprunte le même `Load()`, le score ne serait ni affiché ni enregistré.
+
 * **Cause racine :** `Load()` ne protégeait pas la désérialisation. Un fichier présent mais invalide lève une `ArgumentException` dans `JsonUtility.FromJson`, qui remonte jusqu'au `Start()` de la scène. Le cas "fichier présent mais invalide" n'avait pas été pensé : seul le fichier absent l'était (`Load()` renvoie alors une liste vide).
 * **Correction apportée :** famille "cas non pensé : ajout d'une condition" — la lecture est enveloppée dans un try/catch, une désérialisation qui échoue renvoie une liste vide. La dégradation est assumée : le tableau se vide, et le prochain `Submit` réécrit un fichier valide — le système se répare tout seul.
 

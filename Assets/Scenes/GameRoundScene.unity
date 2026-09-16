@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 0.05
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.21035954, g: 0.2522834, b: 0.3584906, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: c6fcc395f873fce4897004c41815bb21, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 530d71a2eb10da029ad9bc0824b8c6e5, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -5751,7 +5751,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 86d37ac0ceb4bc4468de2013d8d93bd7, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -7037,12 +7037,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RunManager
   _tickInterval: 0.33333334
-  _maxDifficultyTicks: 900
+  _maxDifficultyTicks: 1
   _baseSpeed: 16
   _targetSpeed: 25
   _maxHealth: 500
   _maxFuel: 300
-  _fuelPerTick: 0.01
+  _fuelPerTick: 0.02
   Inventory: []
 --- !u!4 &1274769956
 Transform:

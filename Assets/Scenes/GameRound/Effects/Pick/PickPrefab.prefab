@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8877240843579221455}
   - component: {fileID: 5917579577270566157}
-  - component: {fileID: 3401575889584653340}
-  - component: {fileID: 4498681146798541558}
-  - component: {fileID: 2370821468033858575}
+  - component: {fileID: 8399912620356939320}
+  - component: {fileID: 5672606111693989990}
+  - component: {fileID: 4159351466935980959}
   m_Layer: 0
-  m_Name: BurnedCarHitPrefab
+  m_Name: PickPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5464848534549257390}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5917579577270566157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d85490d1e525b2d4185a49285bf9f7fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Effect
---- !u!198 &3401575889584653340
+--- !u!198 &8399912620356939320
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,16 +55,16 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5464848534549257390}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  emitterVelocityMode: 0
+  emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -129,9 +129,9 @@ ParticleSystem:
     enabled: 1
     startLifetime:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 0.8
-      minScalar: 0.1
+      minMaxState: 0
+      scalar: 0.25
+      minScalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -182,9 +182,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 24
-      minScalar: 16
+      minMaxState: 0
+      scalar: 0
+      minScalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -301,7 +301,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 6
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -566,8 +566,8 @@ ParticleSystem:
     startRotation:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 4.712389
-      minScalar: 0
+      scalar: 0.17453292
+      minScalar: -0.17453292
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -618,7 +618,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 12
+    maxNumParticles: 1000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -679,12 +679,12 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 2
-    angle: 25
+    angle: 82.41
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
-    radiusThickness: 1
+    radiusThickness: 0.1
     donutRadius: 0.2
-    m_Position: {x: 0, y: 0, z: 0}
+    m_Position: {x: 0, y: 0.5, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
@@ -765,7 +765,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 3
+      value: 0.1
       mode: 0
       spread: 0
       speed:
@@ -994,7 +994,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 4
+        scalar: 1
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -1440,8 +1440,8 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 0
-    mode: 0
+    enabled: 1
+    mode: 1
     timeMode: 0
     fps: 30
     frameOverTime:
@@ -1559,7 +1559,27 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 0}
+    - sprite: {fileID: -1800188930, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: -841993239, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: -1165184193, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: -104465310, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: -836606820, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: -1315315644, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: 310333245, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: 1695008334, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: 1747051321, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: 622573090, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: 1728381045, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: -1208143820, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: 1620143311, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: -1500617663, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: -1582232974, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: -755007461, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: -2065357410, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: -1976217146, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: -659745801, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: -1677420282, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
+    - sprite: {fileID: 1333066887, guid: b148ac8500c3fe34cab08060572fd187, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -2261,7 +2281,7 @@ ParticleSystem:
         m_RotationOrder: 4
     m_Range: {x: 0, y: 1}
   ForceModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -2371,7 +2391,7 @@ ParticleSystem:
     z:
       serializedVersion: 2
       minMaxState: 0
-      scalar: -30
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4828,7 +4848,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &4498681146798541558
+--- !u!199 &5672606111693989990
 ParticleSystemRenderer:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -4854,7 +4874,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 69d10dbfde43c324783bd4dde1adc96d, type: 2}
+  - {fileID: 2100000, guid: e823cd5b5d27c0f4b8256e7c12ee3e6d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4877,7 +4897,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_RenderMode: 4
+  m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -4900,7 +4920,7 @@ ParticleSystemRenderer:
   m_VertexStreams: 00010304
   m_UseCustomTrailVertexStreams: 0
   m_TrailVertexStreams: 00010304
-  m_Mesh: {fileID: -4946331212600586933, guid: eb0339912966982439f2976b8ee8fcb8, type: 3}
+  m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
@@ -4908,7 +4928,7 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
---- !u!82 &2370821468033858575
+--- !u!82 &4159351466935980959
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4919,10 +4939,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 2936613109381327328, guid: c4ee859944432fdf38decbe0ecc2f892, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 0646b7938966e05459cbb1cb1913c748, type: 3}
+  m_Resource: {fileID: 8300000, guid: 6cefca11277dc74489912eac399a560f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.25
-  m_Pitch: 1.1
+  m_Volume: 1
+  m_Pitch: 1.2
   Loop: 0
   Mute: 0
   Spatialize: 0

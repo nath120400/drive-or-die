@@ -1,8 +1,8 @@
 # Documentation Technique
 
 **Jeu vidéo PC :** Drive or Die
-**Développeur :** [Nom / Prénom]
-**Promotion :** [Promo / Année]
+**Développeur :** [KLAPCZYNSKI / Nathanael]
+**Promotion :** [Lagos / 2026]
 **Version :** 1.0
 
 ---
