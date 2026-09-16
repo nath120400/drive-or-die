@@ -17,7 +17,7 @@ MonoBehaviour:
   Prefab: {fileID: 5995867157919238722, guid: 548726ef4759b3b04b373e54b954de4b, type: 3}
   Effects:
   - {fileID: 11400000, guid: c599a107d05a22d068f2971d934650cb, type: 2}
-  MinWeight: 10
-  MaxWeight: 20
+  MinWeight: 0
+  MaxWeight: 100
   Radius: 0
-  _damage: 50
+  _damage: 100

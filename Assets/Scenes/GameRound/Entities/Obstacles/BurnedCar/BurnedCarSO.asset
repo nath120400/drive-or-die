@@ -18,10 +18,7 @@ MonoBehaviour:
   Effects:
   - {fileID: 11400000, guid: 4a3f7cfb2215a5846934200a84ef99d3, type: 2}
   - {fileID: 11400000, guid: 217b6435745758a439b178e346c1766f, type: 2}
-  MinWeight: 4
-  MaxWeight: 20
+  MinWeight: -80
+  MaxWeight: 80
   Radius: 3
-  InventorySlot: 0
-  Biome: 0
-  Type: 0
-  _damage: 100
+  _damage: 200

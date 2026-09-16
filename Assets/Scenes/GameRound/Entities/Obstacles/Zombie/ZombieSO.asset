@@ -17,10 +17,7 @@ MonoBehaviour:
   Prefab: {fileID: 1992918158774306533, guid: 12a02a78ca46b3f4fad33e993a4404e3, type: 3}
   Effects:
   - {fileID: 11400000, guid: c599a107d05a22d068f2971d934650cb, type: 2}
-  MinWeight: 10
-  MaxWeight: 20
+  MinWeight: 45
+  MaxWeight: 55
   Radius: 0
-  InventorySlot: 0
-  Biome: 0
-  Type: 0
   _damage: 50

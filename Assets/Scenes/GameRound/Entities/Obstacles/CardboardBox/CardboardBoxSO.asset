@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961c617e3a1840b43a43147a4e7ef1dd, type: 3}
+  m_Name: CardboardBoxSO
+  m_EditorClassIdentifier: Assembly-CSharp::InstantHeal
+  Description: 
+  Icon: {fileID: 0}
+  Prefab: {fileID: 1992918158774306533, guid: 5e5b855ca230a9244ba44a05db528504, type: 3}
+  Effects: []
+  MinWeight: 1
+  MaxWeight: 4
+  Radius: 0.5
+  _heal: 0.2

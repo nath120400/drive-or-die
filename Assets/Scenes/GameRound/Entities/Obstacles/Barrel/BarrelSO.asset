@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e8e3ae815a3c7245b8dc3150d56a428, type: 3}
+  m_Name: BarrelSO
+  m_EditorClassIdentifier: Assembly-CSharp::InstantFuel
+  Description: 
+  Icon: {fileID: 0}
+  Prefab: {fileID: 1992918158774306533, guid: c1cbb9ca51ad07646be500e735c6c707, type: 3}
+  Effects: []
+  MinWeight: 0.1
+  MaxWeight: 0.2
+  Radius: 0.5
+  _fuel: 1
