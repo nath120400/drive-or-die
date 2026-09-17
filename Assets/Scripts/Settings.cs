@@ -2,12 +2,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 
-// The settings: two UI buttons, each carrying a TMP label that shows
-// its state. The volume button cycles the master down (Sound Off / Low /
-// Mid / High), the fullscreen one flips the mode. Both persist in
-// PlayerPrefs so the next run keeps them. The level is static: every
-// scene reads it, the AudioMixer rides decibels and the linear levels
-// convert with 20 * log10
+// The settings screen: the volume button cycles the level down, the
+// fullscreen one flips the mode, both persist in PlayerPrefs. The level
+// is static so every scene reads it; the mixer rides decibels and the
+// linear levels convert with 20 * log10
 public class Settings : MonoBehaviour
 {
     private const string VolumeKey = "MasterVolume";

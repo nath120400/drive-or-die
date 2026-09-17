@@ -3,13 +3,13 @@ using UnityEngine;
 
 public abstract class EntityDescription : ScriptableObject
 {
-    // Front
+    // Identity: what the UI shows, the prefab to spawn, the effects on impact
     public string Description;
     public Sprite Icon;
     public GameObject Prefab;
     public List<EffectDescription> Effects = new List<EffectDescription>();
 
-    // Stats
+    // Spawn tuning: weight range over the difficulty curve, collision radius
     public float MinWeight;
     public float MaxWeight;
     public float Radius;
@@ -49,6 +49,8 @@ public abstract class EntityDescription : ScriptableObject
         _pool.Push(entity.gameObject);
     }
 
+    // The four hooks an item can override: its weight at spawn time,
+    // the car collision, the stat deltas while held, the score each tick
     public virtual void OnEntityBlueprint(ref EntityBlueprint blueprint) {}
 
     public virtual void OnCollide(ref TempState delta) {}

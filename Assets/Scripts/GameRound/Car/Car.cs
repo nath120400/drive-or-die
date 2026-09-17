@@ -59,13 +59,13 @@ public class Car : MonoBehaviour
         float inputChangeSpeed = _steeringSpeed / _maxWheelAngle;
         _smoothedInput = Mathf.MoveTowards(_smoothedInput, rawInput, inputChangeSpeed * Time.fixedDeltaTime);
 
-        // Dynamic steering
+        // The yaw cap tightens with speed: 25° at rest, half of it at full speed
         float speedFactor = Mathf.Clamp01(Mathf.Abs(ForwardSpeed) / 50f);
         float dynamicMaxAngle = Mathf.Lerp(_maxDiagonalAngle, _maxDiagonalAngle * 0.5f, speedFactor);
         _dynamicMaxAngle = dynamicMaxAngle;
         float targetCarAngle = _smoothedInput * dynamicMaxAngle;
 
-        // Accurate steering
+        // The yaw rate cap from the wheel geometry: speed * tan(wheel angle) / wheelbase
         float maxAngularSpeed = (ForwardSpeed * Mathf.Tan(_maxWheelAngle * Mathf.Deg2Rad)) / _wheelbase * Mathf.Rad2Deg;
         float smoothTime = _maxWheelAngle / _steeringSpeed;
 
@@ -91,11 +91,11 @@ public class Car : MonoBehaviour
 
     private void Update()
     {
-        // Wheel steering angle
+        // The front wheels match the current yaw rate
         float omegaRad = _angularVelocityVelocity * Mathf.Deg2Rad;
         float currentWheelAngle = Mathf.Atan((omegaRad * _wheelbase) / ForwardSpeed) * Mathf.Rad2Deg;
 
-        // Continuous wheel rolling
+        // Rolling: the distance covered over the wheel radius, in degrees
         float rotationThisFrame = (ForwardSpeed * Time.deltaTime / _wheelRadius) * Mathf.Rad2Deg;
         _wheelRotationX += rotationThisFrame;
 

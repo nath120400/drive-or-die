@@ -7037,7 +7037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RunManager
   _tickInterval: 0.33333334
-  _maxDifficultyTicks: 1
+  _maxDifficultyTicks: 1800
   _baseSpeed: 16
   _targetSpeed: 25
   _maxHealth: 500
@@ -7165,7 +7165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8150841264763407400, guid: 02ebce04196aa03f199515cad7ebec8d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -320
+      value: -256
       objectReference: {fileID: 0}
     - target: {fileID: 8150841264763407400, guid: 02ebce04196aa03f199515cad7ebec8d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7347,7 +7347,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!114 &1441280787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8114,7 +8114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8150841264763407400, guid: 02ebce04196aa03f199515cad7ebec8d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -256
+      value: -192
       objectReference: {fileID: 0}
     - target: {fileID: 8150841264763407400, guid: 02ebce04196aa03f199515cad7ebec8d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

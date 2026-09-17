@@ -3,10 +3,14 @@ using UnityEngine;
 
 public class ChunkManager : MonoBehaviour
 {
+    // Chunks kept ahead of the car
     public int AheadChunks;
+    // Random tries per entity before it gives up its cell
     public int Tries;
+    // Grid resolution over the zone rect
     public int XCells;
     public int YCells;
+    // Clearance kept between neighboring entities
     public float Border;
 
     // The entity budget per chunk: it densifies with the difficulty
@@ -18,7 +22,7 @@ public class ChunkManager : MonoBehaviour
     public Entities Entities;
     public List<Chunk> Chunks = new List<Chunk>();
 
-    // The scene car: it drives the run state
+    // The car in the scene: the world moves at its forward speed
     [SerializeField] private Car _car;
 
     // The run manager: its difficulty curves the entity weights

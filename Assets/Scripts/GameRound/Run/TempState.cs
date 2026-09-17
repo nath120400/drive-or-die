@@ -1,3 +1,5 @@
+// One stat change in flight: a tick or a collision builds its deltas here,
+// the held items can amend them, then the run applies them once
 public struct TempState
 {
     public Car Car;

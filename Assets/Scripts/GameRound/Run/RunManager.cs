@@ -36,7 +36,7 @@ public class RunManager : MonoBehaviour
     // The current speed rides the difficulty
     public float ForwardSpeed => Mathf.Lerp(_baseSpeed, _targetSpeed, Difficulty);
 
-    // The held entities: they adjust the score, the deltas and the spawns
+    // The held items: they tweak the score, the stat deltas and the spawn weights
     public List<EntityDescription> Inventory = new List<EntityDescription>();
 
     // Reused delta per tick: no allocation
@@ -54,7 +54,7 @@ public class RunManager : MonoBehaviour
 
     private void Update()
     {
-        // Run ticks: the run state advances once per interval
+        // Fixed ticks: one per interval, several in a row after a lag spike
         _tickTimer += Time.deltaTime;
         while (_tickTimer >= _tickInterval)
         {
